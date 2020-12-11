@@ -14,7 +14,12 @@ class CreatePostsTable extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            //
+            $table->string('title');
+            $table->string('url');
+            $table->text('preview');
+            $table->text('content');
+            $table->string('image');
+            $table->string('link');
         });
     }
 
