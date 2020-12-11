@@ -14,7 +14,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(10);
+        $posts = Post::orderBy('id', 'desc')->paginate(10);
 
         return response()->view('posts.index', compact('posts'));
     }
@@ -66,7 +66,9 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        return view('posts.create_or_edit', compact('post'));
     }
 
     /**
@@ -89,6 +91,10 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        $post->delete();
+
+        return redirect()->action([PostsController::class, 'index'])->with('success', 'Post deleted');
     }
 }

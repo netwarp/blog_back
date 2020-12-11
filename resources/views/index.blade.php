@@ -2,27 +2,28 @@
 
 @section('content')
     <h1>Welcome</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Preview</th>
-                <th>Created_at</th>
-                <th>Updated_at</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="row">
+        <div class="col-md-9">
             @forelse($posts as $post)
-                <tr>
-                    <td>{{ $post->id ?? '' }}</td>
-                    <td>{{ $post->preview ?? '' }}</td>
-                    <td>{{ $post->created_at ?? '' }}</td>
-                    <td>{{ $post->updated_at ?? '' }}</td>
-                </tr>
+                <div class="card my-3">
+                    <div class="card-body">
+                        <div>{{ $post->id ?? '' }}</div>
+                        <div>{{ $post->preview ?? '' }}</div>
+                        <div>{{ $post->created_at ?? '' }}</div>
+                        <div>{{ $post->updated_at ?? '' }}</div>
+                    </div>
+                </div>
             @empty
-                <td colspan="3">No post available</td>
+                <div>No post available</div>
             @endforelse
-        </tbody>
-    </table>
+        </div>
+        <div class="col-md">
+            <div class="card my-3">
+                <div class="card-body">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus doloremque, eos error, facilis fugit maiores optio placeat quisquam ratione sint tempore unde ut voluptates? Consequuntur harum impedit magni minima tempora?
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
