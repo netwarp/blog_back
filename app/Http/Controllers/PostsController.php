@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use DOMDocument;
+use DOMXPath;
 
 class PostsController extends Controller
 {
@@ -42,6 +44,27 @@ class PostsController extends Controller
             'content' => $request->get('content'),
         ];
 
+        preg_match('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $data['preview'], $match);
+        $url = $match[0] ?? null;
+
+        if ($url) {
+            $response = file_get_contents($url);
+
+            $dom =  new DOMDocument;
+
+            @$dom->loadHTML($response);
+
+            $xpath = new DOMXPath($dom);
+            $query = '//*/meta[starts-with(@property, \'og:\')]';
+            $metas = $xpath->query($query);
+            $rmetas = [];
+            foreach ($metas as $meta) {
+                $property = $meta->getAttribute('property');
+                $content = $meta->getAttribute('content');
+                $rmetas[$property] = $content;
+            }
+            $data['meta'] = $rmetas;
+        }
         Post::create($data);
 
         return redirect()->action([PostsController::class, 'index'])->with('success', 'Post created');

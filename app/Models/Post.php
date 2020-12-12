@@ -12,11 +12,12 @@ class Post extends Model
     protected $table = 'posts';
 
     protected $fillable = [
-        'title',
-        'slug',
         'preview',
         'content',
-        'image',
-        'link'
+        'meta'
+    ];
+
+    protected $casts = [
+        'meta' => 'json'
     ];
 }
