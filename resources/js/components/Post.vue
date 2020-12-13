@@ -5,8 +5,9 @@
             <span>{{ created_at }}</span>
             <span>{{ updated_at }}</span>
         </div>
-        <div class="card-body">
-            {{ preview }}
+        <div class="card-body" style="white-space: pre-wrap">
+            <div>{{ preview }}</div>
+            <div>{{ content }}</div>
         </div>
        <div class="card-footer" v-if="meta">
            <div v-if="meta['og:url']">
