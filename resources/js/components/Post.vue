@@ -11,10 +11,10 @@
        <div class="card-footer" v-if="meta">
            <div v-if="meta['og:url']">
                <div>
-                   <a :href="meta['og:url']" v-text="meta['og:url']"></a>
+                   <a :href="meta['og:url']" v-text="meta['og:title']"></a>
                </div>
                <div v-if="meta['og:image']">
-                   <a :href="meta['og:url']">
+                   <a :href="meta['og:url']" target="_blank">
                        <img :src="meta['og:image']" alt="image link">
                    </a>
                </div>
@@ -22,9 +22,9 @@
 
                </div>
            </div>
-           <!--
-           <pre>{{ meta }}</pre>
-            -->
+
+           <pre v-if="debug">{{ meta }}</pre>
+
        </div>
     </div>
 </template>
@@ -54,7 +54,7 @@
 
         data() {
             return {
-
+                debug: false
             }
         },
 

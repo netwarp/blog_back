@@ -32,6 +32,18 @@
 
         mounted() {
            this.fetchPosts()
+
+
+            window.addEventListener('scroll', () => {
+                let current_scroll = window.pageYOffset
+                let limit = document.body.offsetHeight - window.innerHeight
+
+
+                if (current_scroll === limit) {
+                    this.page++
+                    this.fetchPosts()
+                }
+            });
         },
 
         components: {
@@ -40,18 +52,30 @@
 
         data() {
             return {
+                page: 1,
+                last_page: null,
                 posts: []
             }
         },
 
         methods: {
             async fetchPosts() {
-                const url = 'http://localhost:8000/api/posts';
+                const url = `http://localhost:8000/api/posts?page=${this.page}`;
                 const response = await axios.get(url)
                 let data = await response.data
-                data = data.data
-                this.posts = data
+
+                this.last_page = await response.data.meta.last_page
+
+                for (let post of data.data) {
+                    this.posts.push(post)
+                }
+            },
+
+            checkScroll(event) {
+                console.log(event)
             }
-        }
+        },
+
+
     }
 </script>

@@ -10,6 +10,6 @@ use App\Http\Resources\Post as PostResource;
 class PostsController extends Controller
 {
     public function index() {
-        return new PostResource(Post::orderBy('id', 'desc')->get());
+        return new PostResource(Post::orderBy('id', 'desc')->paginate(10));
     }
 }

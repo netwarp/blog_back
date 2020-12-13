@@ -18,6 +18,12 @@
                     </ul>
                 </div>
                 <div class="col-md">
+                    @if (session('success'))
+                        <div class="alert alert-success mt-3">
+                              {{ session('success') }}
+                        </div>
+                    @endif
+
                     @yield('content')
                 </div>
             </div>
