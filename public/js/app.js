@@ -16531,7 +16531,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     target: "_blank"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
     src: $props.meta['og:image'],
-    alt: "image link"
+    alt: "image link",
+    "class": "img-fluid"
   }, null, 8
   /* PROPS */
   , ["src"])], 8

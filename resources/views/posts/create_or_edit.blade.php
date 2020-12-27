@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="d-flex justify-content-between flex align-items-center">
-        <h1>New Post</h1>
+        <h1>{{ $title ?? '' }}</h1>
         @if (isset($post))
             <form action="/posts/{{ $post->id }}" method="POST">
                 @csrf
@@ -11,8 +11,12 @@
             </form>
         @endif
     </div>
-    <form action="/posts" method="POST">
+    <form action="/posts/{{ $post->id ?? '' }}" method="POST">
         @csrf
+
+        @if (isset($post))
+            @method('put')
+        @endif
 
         <div class="form-group my-3">
             <label for="preview">Preview</label>
@@ -28,4 +32,9 @@
             <button type="submit" class="btn btn-primary btn-lg btn-block">Send</button>
         </div>
     </form>
+    @if (isset($post))
+        <pre>
+            {{ var_dump($post->meta) }}
+        </pre>
+    @endif
 @endsection

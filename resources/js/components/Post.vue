@@ -16,7 +16,7 @@
                </div>
                <div v-if="meta['og:image']">
                    <a :href="meta['og:url']" target="_blank">
-                       <img :src="meta['og:image']" alt="image link">
+                       <img :src="meta['og:image']" alt="image link" class="img-fluid">
                    </a>
                </div>
                <div v-text="meta['og:description']">

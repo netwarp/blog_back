@@ -28,7 +28,9 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('posts.create_or_edit');
+        $title = 'New Post';
+
+        return view('posts.create_or_edit', compact('title'));
     }
 
     /**
@@ -44,7 +46,7 @@ class PostsController extends Controller
             'content' => $request->get('content'),
         ];
 
-        preg_match('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $data['preview'], $match);
+        preg_match('#\https?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $data['preview'], $match);
         $url = $match[0] ?? null;
 
         if ($url) {
@@ -103,7 +105,38 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        $data = [
+            'preview' => $request->get('preview'),
+            'content' => $request->get('content'),
+        ];
+
+        preg_match('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $data['preview'], $match);
+        $url = $match[0] ?? null;
+
+        if ($url) {
+            $response = file_get_contents($url);
+
+            $dom =  new DOMDocument;
+
+            @$dom->loadHTML($response);
+
+            $xpath = new DOMXPath($dom);
+            $query = '//*/meta[starts-with(@property, \'og:\')]';
+            $metas = $xpath->query($query);
+            $rmetas = [];
+            foreach ($metas as $meta) {
+                $property = $meta->getAttribute('property');
+                $content = $meta->getAttribute('content');
+                $rmetas[$property] = $content;
+            }
+            $data['meta'] = $rmetas;
+        }
+
+        $post->update($data);
+
+        return redirect('/')->with('success', 'Post updated');
     }
 
     /**
